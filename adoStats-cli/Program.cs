@@ -5,6 +5,7 @@ using adoStats_core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.TeamFoundation.SourceControl.WebApi;
 using System.CommandLine;
+using System.CommandLine.Invocation;
 
 namespace adoStats_cli
 {
@@ -18,9 +19,12 @@ namespace adoStats_cli
         // }
 
 
-        static async Task<int> Main(string[] args)
+        static async Task Main(string[] args)
         {
-            return await stats();
+            var rootCommand = new RootCommand();
+            rootCommand.AddCommand(new Stats());
+            await rootCommand.InvokeAsync(args);//.Wait();
+            //return await stats();
         }
 
         static async Task<int> stats()
@@ -32,56 +36,7 @@ namespace adoStats_cli
                 try
                 {
                     var myService = services.GetRequiredService<IAzureDevService>();
-                    var repos = (await myService.GetRepositories()).FindAll(x=>x.Name.Contains("Payments"));
-                    List<GitRepository> reposToRemove = new List<GitRepository>();
-                    foreach (var repo in repos)
-                    {
-                        //Console.WriteLine(repo.Name);
-                        //var c = (await myService.GetLatestCommits(repo.Id.ToString(),DateTime.Parse("5/24/2020")))[0];
-                            
-                        //var defs = await myService.GetBuildDefinitions(repo);
-                        //BuildDefinition def;
-                        // if (defs.Count == 0)
-                        // {
-                        //     Console.WriteLine($"No definition found for {repo.Name}");
-                        //     reposToRemove.Add(repo);
-                        //     continue;
-                        // }
-                        //var gated = defs.Find(d=>d.Name.Contains("Gated"));
-                        //var sonar = defs.Find(d=>d.Name.Contains("Sonar"));
-                        //def = gated ?? sonar ?? defs[0];
-                        //Console.WriteLine($"{def.Name}\t{def.Id}\t{def.Uri}");
-                        //var builds = (await myService.GetBuilds(repo,50,def.Id.ToString()));
-                        //var matchingBuilds = builds.FindAll(b=>b.SourceVersion==c.CommitId);
-                        
-                        // Console.WriteLine($"{c.CommitId}\t\t\t{c.Author.Name}\t\t{c.Comment}");
-                            
-                        // var b = matchingBuilds.Find(b=>b.Definition.Name.Contains("Gated")) ?? matchingBuilds.Find(b=>b.Definition.Name.Contains("Sonar")) ?? builds.Find(b=>b.Result.ToString().Contains("Succeeded"));
-
-                        // if (b.SourceVersion == c.CommitId) 
-                        // {
-                        //     Console.WriteLine("-------------------- MATCHING BUILD FOUND --------------------");
-                            
-                        // }
-                        // Console.WriteLine($"{b.Definition.Name}\t\t{b.Result}\t\t{b.SourceVersion}\t\t{b.SourceBranch}");
-                        // if(b.Definition.Name.Contains("Gated"))
-                        // {
-                        //     Console.WriteLine("-------------------- GATED BUILD FOUND --------------------");
-                            
-                        // }
-                        // var testRuns = await myService.GetTestRunsForBuild(b);
-
-                        // foreach (TestRun tr in testRuns)
-                        // {
-                        //     Console.WriteLine($"{tr.PassedTests} / {tr.TotalTests} Tests Passed");
-                        // }
-                    }
-                    foreach( var r in reposToRemove){
-                        repos.Remove(r);
-                    }
-                    Console.WriteLine($"{repos.Count} valid repos found");
-                        // Console.WriteLine(pageContent.Substring(0, 500));
-                    //}
+                    
                 }
                 catch (Exception ex)
                 {
@@ -92,6 +47,21 @@ namespace adoStats_cli
                 }
             }
             return 0;
+        }
+   
+        public class Stats : System.CommandLine.Command
+        {
+
+            public Stats() : base("stats", "get them stats")
+            {
+                Add(new Option<string>("--host"));
+                Handler = CommandHandler.Create<string>(GetStats);
+            }
+
+            public void GetStats(string host)
+            {
+                Console.WriteLine($"your host is {host}");
+            }
         }
     }
 }
