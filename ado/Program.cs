@@ -27,27 +27,27 @@ namespace adoStats_cli
             //return await stats();
         }
 
-        static async Task<int> stats()
-        {
-            var host = ServiceContainer.host;
-            using (var serviceScope = host.Services.CreateScope())
-            {
-                var services = serviceScope.ServiceProvider;
-                try
-                {
-                    var myService = services.GetRequiredService<IAzureDevService>();
+        // static async Task<int> stats()
+        // {
+        //     var host = ServiceContainer.host;
+        //     using (var serviceScope = host.Services.CreateScope())
+        //     {
+        //         var services = serviceScope.ServiceProvider;
+        //         try
+        //         {
+        //             var myService = services.GetRequiredService<IAzureDevService>();
                     
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    // var logger = services.GetRequiredService<ILogger<Program>>();
+        //         }
+        //         catch (Exception ex)
+        //         {
+        //             Console.WriteLine(ex.Message);
+        //             // var logger = services.GetRequiredService<ILogger<Program>>();
 
-                    // logger.LogError(ex, "An error occurred.");
-                }
-            }
-            return 0;
-        }
+        //             // logger.LogError(ex, "An error occurred.");
+        //         }
+        //     }
+        //     return 0;
+        // }
    
         public class Stats : System.CommandLine.Command
         {

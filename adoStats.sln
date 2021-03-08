@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adoStats-cli", "adoStats-cli\adoStats-cli.csproj", "{6DA29A4B-337C-4143-A5F6-92363AEB1AA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ado", "ado\ado.csproj", "{6DA29A4B-337C-4143-A5F6-92363AEB1AA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adoStats-core", "adoStats-core\adoStats-core.csproj", "{22281452-C942-4E42-B64C-B4E7C825A10F}"
 EndProject
